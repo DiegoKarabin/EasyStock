@@ -1,0 +1,6 @@
+host=localhost
+bd=inventario
+usuario=root
+password=
+
+Archivo de Parametros para la conexion con la base de datos.

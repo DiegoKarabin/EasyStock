@@ -2,101 +2,106 @@ package models;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static views.Dialogs.error;
 
 
 /**
  * Esta clase nos permite establecer una conexion con la base de datos.
+ * 
+ * Incluye la conexion, validacion y acceso a la base de datos en el host respectivo.
+ * 
  */
 public class DBConnection {
     
-    private String url, user, pass;
+    private String host, database, user, pass;
     private Connection cn;
 
     /**
      * El constructor de la conexion recibe como argumentos:
-     * La url a la base de datos.
-     * El usuario con el que se va a conectar.
-     * El password para acceder.
+     * El host donde se encuentra la base de datos
+     * El nombre de la base de datos
+     * El usuario con el que se va a conectar
+     * El password para acceder
      */
-    public DBConnection(String url, String user, String pass) {
+    public DBConnection(String host, String database, String user, String pass)
+    {
         // Inicializa los valores
-        this.url = url;
+        this.host = host;
+        this.database = database;
         this.user = user;
         this.pass = pass;
-        
-        // Si son valores validos, crea una conexion
-        if (url != null && user != null && pass != null)
-            getConnection(url, user, pass);
-        else
-            // Sino la conexion es null
-            this.cn = null;
     }
     
     /**
      * Constructor Vacio. Pasa valores null por defecto.
      */
     public DBConnection() {
-        this(null, null, null);
+        this(null, null, null, null);
     }
     
-    
-    /**
-     * Este metodo nos crea una conexion con la base de datos.
-     */
-    public Connection getConnection(String url, String user, String pass) {
+    public boolean conectar(boolean verificar) {
+        boolean ok = true;
+        
         try {
-            // Verifica que este el driver de MySQL
             Class.forName("com.mysql.jdbc.Driver");
-            // Intenta crear la conexion
-            this.cn = DriverManager.getConnection(
-                    "jdbc:mysql://" + url, user, pass);
-            // Si todo sale bien, muestra un mensaje por consola
-            System.out.println("Conexión con la base de datos exitosa.");
-        } catch (ClassNotFoundException ex) {
-            // Si el driver no esta instalado, muestra este error
-            error("El driver para mysql no está instalado.");
-            ex.printStackTrace();
-        } catch (SQLException ex) {
-            /*
-            Si ocurre un error al conectarse a la base de datos,
-            muestra el error
-            */
-            error("Ocurrio un error al conectarse con la base de datos.");
-            ex.printStackTrace();
+            cn = (com.mysql.jdbc.Connection) DriverManager.getConnection(
+                "jdbc:mysql://" + host + ":3306/" + database, user, pass);
+        } catch (ClassNotFoundException | SQLException ex) {
+            if(!verificar)
+                error(
+                    "Error de conexión a la base de datos.\n" +
+                    "Configure la conexión correctamente.\n" +
+                    "Verifique que este encendido el servidor de MySQL."
+                );
+            
+            ok = false;
         }
         
-        // Devuelve el objeto con la conexion a la base de datos
-        return this.cn;
+        return ok;
     }
     
-    /**
-     * Devuelve el objeto con la conexion a la base de datos.
-     */
-    public Connection getConnection() {
-        return this.cn;
+    public ResultSet ejecutar(String comando, Object ... data)
+        throws SQLException
+    {
+        return ejecutar(false, comando, data);
     }
     
-    /**
-     * Abre la conexion con la base de datos.
-     */
-    public Connection open() {
-        return getConnection(url, user, pass);
+    public ResultSet ejecutar(boolean receive, String comando, Object ... data)
+        throws SQLException
+    {
+        ResultSet rs = null;
+        
+        if(cn != null) {
+            PreparedStatement preparedStmt = cn.prepareStatement(comando);
+            
+            if(data.length > 0)
+                for(int i = 0; i < data.length; i++)
+                    preparedStmt.setObject(i + 1, data[i]);
+                    //preparedStmt.setString(i + 1, data[i]);
+            
+            if(receive)
+                rs = preparedStmt.executeQuery();
+            else
+                preparedStmt.executeUpdate();
+        }
+        
+        return rs;
     }
     
-    /**
-     * Cierra la conexion con la base de datos.
-     */
-    public void close() {
-        if (cn != null)
-            try {
-                cn.close();
-            } catch (SQLException ex) {
-                error("Error al cerrar la conexion.");
-                ex.printStackTrace();
-            }
+    public void desconectar()
+    {
+        try {
+            cn.close();
+        } catch (SQLException | NullPointerException ex) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE,
+                "Access denied for User: " + user + ", Password: " + pass +
+                ". Configure DB connection.");
+        }
     }
-    
 }
