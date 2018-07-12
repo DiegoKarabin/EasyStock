@@ -9,7 +9,7 @@ import controllers.ControladorCrearUsuario;
 import controllers.ControladorInicioSesion;
 import models.DBConnection;
 import models.Usuario;
-import static views.Dialogs.error;
+import static views.Dialogs.*;
 
 /**
  * Esta es la clase principal.
@@ -76,9 +76,15 @@ public class Main {
             
             iniciar();
             
-            if (Usuario.listar().size() == 0)
+            if (Usuario.listar().size() == 0) {
+                info(
+                    null,
+                    "No se encontro un usuario administrador registrado.\n" +
+                    "Para iniciar el programa se procedera a crear el usuario" +
+                    "administrador."
+                );
                 new ControladorCrearUsuario(true);
-            else
+            } else
                 new ControladorInicioSesion();
         } catch (Exception e) {
             e.printStackTrace();

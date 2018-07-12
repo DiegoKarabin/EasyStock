@@ -213,7 +213,7 @@ public class FormularioCrearUsuario extends javax.swing.JFrame {
         return privilegiosPanel;
     }
     
-    public void setListener() {
+    private void setListener() {
         this.createBtn.addActionListener(controlador);
         this.cleanBtn.addActionListener(controlador);
         this.cancelBtn.addActionListener(controlador);
