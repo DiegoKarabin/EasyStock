@@ -15,10 +15,18 @@ public class ControladorCrearUsuario implements ActionListener {
     Usuario usuario;
     
     public ControladorCrearUsuario() {
-        this(false);
+        this(false, null);
+    }
+    
+    public ControladorCrearUsuario(Boolean primera_vez) {
+        this(primera_vez, null);
+    }
+    
+    public ControladorCrearUsuario(Usuario usuario) {
+        this(false, usuario);
     }
 
-    public ControladorCrearUsuario(boolean primera_vez) {
+    public ControladorCrearUsuario(boolean primera_vez, Usuario usuario) {
         ventana = new FormularioCrearUsuario(this);
         this.primera_vez = primera_vez;
         
@@ -27,6 +35,17 @@ public class ControladorCrearUsuario implements ActionListener {
             ventana.getGerenteRadio().doClick();
             ventana.getGerenteRadio().setEnabled(false);
             ventana.getCajeroRadio().setEnabled(false);
+        }
+        
+        if (usuario != null) {
+            ventana.getUsernameField().setText(usuario.getUsername());
+            ventana.getPasswordField().setText(usuario.getPassword());
+            ventana.getConfirmPassField().setText(usuario.getPassword());
+            
+            if (usuario.isAdmin())
+                ventana.getGerenteRadio().doClick();
+            else
+                ventana.getCajeroRadio().doClick();
         }
         
         ventana.setLocationRelativeTo(null);

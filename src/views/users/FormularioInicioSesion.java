@@ -23,12 +23,12 @@ public class FormularioInicioSesion extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        CampoUsername = new javax.swing.JTextField();
+        campoUsername = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        BotonIngresar = new javax.swing.JButton();
-        BotonCancelar = new javax.swing.JButton();
+        botonIngresar = new javax.swing.JButton();
+        botonCancelar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        CampoClave = new javax.swing.JPasswordField();
+        campoClave = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -37,9 +37,9 @@ public class FormularioInicioSesion extends javax.swing.JFrame {
 
         jLabel2.setText("Contraseña");
 
-        BotonIngresar.setText("Ingresar");
+        botonIngresar.setText("Ingresar");
 
-        BotonCancelar.setText("Cancelar");
+        botonCancelar.setText("Cancelar");
 
         jLabel3.setText("Inicio de Sesión");
 
@@ -53,9 +53,9 @@ public class FormularioInicioSesion extends javax.swing.JFrame {
                         .addGap(41, 41, 41)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(BotonIngresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(botonIngresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(BotonCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(botonCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(layout.createSequentialGroup()
@@ -64,8 +64,8 @@ public class FormularioInicioSesion extends javax.swing.JFrame {
                                     .addComponent(jLabel1))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(CampoUsername)
-                                    .addComponent(CampoClave)))))
+                                    .addComponent(campoUsername)
+                                    .addComponent(campoClave)))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(135, Short.MAX_VALUE)
                         .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -80,15 +80,15 @@ public class FormularioInicioSesion extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(CampoUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(CampoClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BotonIngresar)
-                    .addComponent(BotonCancelar))
+                    .addComponent(botonIngresar)
+                    .addComponent(botonCancelar))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
@@ -96,34 +96,34 @@ public class FormularioInicioSesion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BotonCancelar;
-    private javax.swing.JButton BotonIngresar;
-    private javax.swing.JPasswordField CampoClave;
-    private javax.swing.JTextField CampoUsername;
+    private javax.swing.JButton botonCancelar;
+    private javax.swing.JButton botonIngresar;
+    private javax.swing.JPasswordField campoClave;
+    private javax.swing.JTextField campoUsername;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 
     public JButton getBotonCancelar() {
-        return BotonCancelar;
+        return botonCancelar;
     }
 
     public JButton getBotonIngresar() {
-        return BotonIngresar;
+        return botonIngresar;
     }
 
     public JPasswordField getCampoClave() {
-        return CampoClave;
+        return campoClave;
     }
 
     public JTextField getCampoUsername() {
-        return CampoUsername;
+        return campoUsername;
     }
     
     private void setListener() {
-        this.BotonIngresar.addActionListener(controlador);
-        this.BotonCancelar.addActionListener(controlador);
+        this.botonIngresar.addActionListener(controlador);
+        this.botonCancelar.addActionListener(controlador);
     }
 
 }
