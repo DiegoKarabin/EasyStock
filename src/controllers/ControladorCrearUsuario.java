@@ -11,8 +11,8 @@ import static views.Dialogs.*;
 public class ControladorCrearUsuario implements ActionListener {
     
     FormularioCrearUsuario ventana;
-    boolean primera_vez;
-    Usuario usuario;
+    boolean primera_vez, actualizar;
+    Usuario usuario, actual;
     
     public ControladorCrearUsuario() {
         this(false, null);
@@ -38,6 +38,7 @@ public class ControladorCrearUsuario implements ActionListener {
         }
         
         if (usuario != null) {
+            this.usuario = usuario;
             ventana.getUsernameField().setText(usuario.getUsername());
             ventana.getPasswordField().setText(usuario.getPassword());
             ventana.getConfirmPassField().setText(usuario.getPassword());
@@ -46,6 +47,8 @@ public class ControladorCrearUsuario implements ActionListener {
                 ventana.getGerenteRadio().doClick();
             else
                 ventana.getCajeroRadio().doClick();
+            
+            actualizar = true;
         }
         
         ventana.setLocationRelativeTo(null);
@@ -66,9 +69,12 @@ public class ControladorCrearUsuario implements ActionListener {
         try {
             filtrar_campos();
             
-            usuario.insertar();
+            if (actualizar)
+                usuario.modificar();
+            else
+                usuario.insertar();
             
-            if (primera_vez)
+            if (primera_vez && !actualizar)
                 new ControladorInicioSesion();
                 
             ventana.dispose();
@@ -79,8 +85,12 @@ public class ControladorCrearUsuario implements ActionListener {
                     "El usuario que intenta crear ya se encuentra registrado.");
             else
                 warning(ventana, ex.getMessage());
+            
+            usuario = actual;
         } catch (Exception ex) {
+            ex.printStackTrace();
             warning(ventana, ex.getMessage());
+            usuario = actual;
         }
     }
     
@@ -121,14 +131,19 @@ public class ControladorCrearUsuario implements ActionListener {
         
         if (!mensaje.equals(""))
             throw new Exception(mensaje);
-        else
-            usuario = new Usuario(
-                nombre,
-                clave,
-                ventana.getPrivilegiosBtnGrp().isSelected(
-                    ventana.getGerenteRadio().getModel()
-                ),
-                true
-            );
+        else {
+            if (actualizar)
+                actual = usuario.copiar();
+            else
+                usuario = new Usuario();
+            
+            usuario.setUsername(nombre);
+            usuario.setPassword(clave);
+            usuario.setIsAdmin(ventana.getPrivilegiosBtnGrp().isSelected(
+                ventana.getGerenteRadio().getModel()
+            ));
+            usuario.setIsActive(true);
+            
+        }
     }
 }

@@ -31,7 +31,9 @@ public class ControladorPrincipal extends MouseAdapter {
             new ControladorCrearUsuario();
         
         // Si desea configurar su cuenta
-        
+        if (e.getSource().equals(ventana.getOpcionConfigurarCuenta()))
+            new ControladorCrearUsuario(true, usuario);
+            
         // Si presiona cerrar sesion.
         if (e.getSource().equals(ventana.getOpcionCerrarSesion())) {
             // Obtenemos la respuesta del usuario

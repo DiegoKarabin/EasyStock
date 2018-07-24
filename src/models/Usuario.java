@@ -11,7 +11,7 @@ import static views.Dialogs.error;
  */
 public class Usuario {
     
-    private String username, password;
+    private String username, password, username_antiguo;
     private boolean isActive, isAdmin;
     
     /**
@@ -48,6 +48,7 @@ public class Usuario {
      * Establece el nombre de usuario al valor dado.
      */
     public void setUsername(String username) {
+        this.username_antiguo = this.username;
         this.username = username;
     }
 
@@ -92,13 +93,23 @@ public class Usuario {
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
+
+    
+    public Usuario copiar() {
+        return new Usuario(
+            username,
+            password,
+            isActive,
+            isAdmin
+        );
+    }
+    
+    
     
     /**
      * Registra un usuario en la base de datos.
      */
-    public String insertar() throws SQLException {
-        String msg = ""; // Aca guardamos los mensajes de error
-        
+    public boolean insertar() throws SQLException {
         try {
             con.ejecutar(
                 // Especificamos el SQL
@@ -106,32 +117,30 @@ public class Usuario {
                 // Pasamos los atributos
                 username, password, isAdmin
             );
+            
+            return true;
         } catch (SQLException ex) {
             throw ex; // Si ocurre un error lo notificamos
         }
-        
-        return msg; // Retornamos el mensaje
     }
     
     /**
      * Modifica un usuario en la base de datos.
      */
-    public String modificar() {
-	String msg = ""; // Aca guardamos los mensajes de error
-        
+    public boolean modificar() throws SQLException {
         try {
             con.ejecutar(
                 // Especificamos el SQL
-                "UPDATE usuarios SET clave = ?, es_admin = ? " +
+                "UPDATE usuarios SET username=?, clave = ?, es_admin = ? " +
                 "WHERE username = ?",
                 // Pasamos los atributos
-                password, isAdmin, username
+                username, password, isAdmin, username_antiguo
             );
+            
+            return true;
         } catch (SQLException ex) {
-            msg = ex.getMessage(); // Si ocurre un error guardamos el mensaje
+            throw ex;
         }
-        
-        return msg; // Retornamos el mensaje
     }
     
     /**

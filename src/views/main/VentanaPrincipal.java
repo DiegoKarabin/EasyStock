@@ -188,6 +188,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public JMenuItem getOpcionAgregarUsuario() {
         return opcionAgregarUsuario;
     }
+
+    public JMenuItem getOpcionConfigurarCuenta() {
+        return opcionConfigurarCuenta;
+    }
     
     private void setListener() {
         opcionAgregarCliente.addMouseListener(controlador);
